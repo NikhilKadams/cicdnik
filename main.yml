@@ -1,0 +1,25 @@
+name: Deploy HTML to EC2
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    - name: Show all files
+      run: ls -al
+    - name: Copy file via SSH password
+      uses: appleboy/scp-action@v1
+      with:
+          host: ${{ secrets.EC2_JIGAR }}
+          username: ${{ secrets.EC2_USERS }}
+          key: ${{ secrets.EC2_PASS }}
+          port: 22
+          source: "./"
+          target: "./"
+          
